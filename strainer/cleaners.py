@@ -7,11 +7,15 @@ Created by: Rui Carmo
 License: MIT (see LICENSE for details)
 """
 
-import os, sys, re, logging, urlparse
+import logging
+import urlparse
 
 log = logging.getLogger()
 
+from requests.packages import charade
+
 import patterns
+
 from bs4.element import Comment
 
 
@@ -28,16 +32,18 @@ def remove_unlikely(soup):
             s += ''.join(el['class'])
         if 'id' in el.attrs:
             s += el['id']
-        if patterns.unlikely.search(s) and (not patterns.low_potential.search(s)) and el.name != 'body':
+        if patterns.unlikely.search(s) and (
+                not patterns.low_potential.search(s)) and el.name != 'body':
             el.extract()
     return soup
-    
+
 
 def demote_divs(soup):
     """Demote divs that do not contain other block elements"""
     for el in soup.find_all():
         if el.name == "div":
-            if not patterns.significant_children.search(''.join([e.name for e in el.find_all()])):
+            if not patterns.significant_children.search(
+                    ''.join([e.name for e in el.find_all()])):
                 el.name = "p"
     return soup
 
@@ -46,19 +52,19 @@ def remove_breaks(html):
     """Remove BR tags and replace them with Ps"""
     patterns.breaks.sub('</p><p>', html)
     return html
-    
+
 
 def cleanup(soup):
     """Remove unwanted tags and attributes"""
     # remove comments
-    comments = soup.findAll(text=lambda text:isinstance(text, Comment))
+    comments = soup.findAll(text=lambda text: isinstance(text, Comment))
     [comment.extract() for comment in comments]
 
     # remove unwanted tags
     for t in patterns.strip_tags:
         for f in soup.find_all(t):
             f.extract()
-        
+
     for t in patterns.sanitizable_tags:
         for f in soup.find_all(t):
             attrs = [a for a in f.attrs.keys()]
@@ -83,11 +89,12 @@ def make_links_absolute(soup, url):
 
 
 def set_encoding(soup):
+
     try:
-        import chardet
+        enc = charade.detect(soup.get_text())['encoding']
+
     except:
+        log.warning('Could not detect encoding, good luck!')
         return soup
 
-    enc = chardet.detect(soup.get_text())['encoding']
-    soup.encode(enc)
-    return soup
+    return soup.encode(enc)
