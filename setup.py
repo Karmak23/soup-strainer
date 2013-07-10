@@ -7,12 +7,10 @@ Description: Experimental Cython compile script
 License: MIT (see LICENSE.md for details)
 """
 
-import os, sys
+import os
+import sys
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Distutils import build_ext
-from Cython.Build import cythonize
-from glob import glob
 
 
 try:
@@ -20,6 +18,7 @@ try:
 except:
     print "You don't seem to have Cython installed"
     sys.exit(1)
+
 
 def scandir(dir, files=[]):
     for file in os.listdir(dir):
@@ -30,27 +29,24 @@ def scandir(dir, files=[]):
             scandir(path, files)
     return files
     
+
 def makeExtension(extName):
-    extPath = extName.replace(".", os.path.sep)+".py"
+    extPath = extName.replace(".", os.path.sep) + ".py"
     return Extension(
         extName,
         [extPath],
-        include_dirs = ["."],
-        extra_compile_args = ["-O3", "-Wall"],
-        extra_link_args = ['-g'],
-        libraries = [],
-    )    
+        include_dirs=["."],
+        extra_compile_args=["-O3", "-Wall"],
+        extra_link_args=['-g'],
+        libraries=[],
+    )
 
-extNames = scandir("strainer")
-#extNames.extend(scandir("bs4"))
-#extNames.extend(scandir("chardet"))
-#extNames.extend(scandir("html5lib"))
-extensions = [makeExtension(name) for name in extNames]
+extensions = [makeExtension(name) for name in scandir("strainer")]
 
 setup(
-    name = "strainer",
-    packages = ["strainer"],
+    name="strainer",
+    packages=["strainer"],
     ext_modules=extensions,
-    cmdclass = {'build_ext': build_ext},
+    cmdclass={'build_ext': build_ext},
+    install_requires=['beautifulsoup4', 'html5lib', 'lxml', 'requests'],
 )
-
