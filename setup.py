@@ -48,6 +48,7 @@ setup(
     packages=["strainer"],
     ext_modules=extensions,
     cmdclass={'build_ext': build_ext},
-    install_requires=['Cython', 'beautifulsoup4',
+    setup_requires=['Cython', ],
+    install_requires=['beautifulsoup4',
                       'html5lib', 'lxml', 'requests'],
 )
