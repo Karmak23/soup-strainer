@@ -9,15 +9,31 @@ License: MIT (see LICENSE.md for details)
 
 import os
 import sys
-from distutils.core import setup
-from distutils.extension import Extension
-
+import warnings
 
 try:
-    from Cython.Distutils import build_ext
+    from distribute_setup import use_setuptools
+    use_setuptools()
 except:
-    print "You don't seem to have Cython installed"
-    sys.exit(1)
+    warnings.warn(
+        "Failed to import distribute_setup, continuing without distribute.",
+        Warning)
+
+from setuptools import setup, find_packages
+from setuptools.command.build_ext import build_ext as distutils_build_ext
+from setuptools.extension import Extension
+
+setup_args = {}
+
+if 'sdist' in sys.argv:
+    try:
+        from Cython.Distutils import build_ext
+
+    except:
+        print "You don't seem to have Cython installed"
+        build_ext = distutils_build_ext
+
+    setup_args['cmdclass'] = {'build_ext': build_ext}
 
 
 def scandir(dir, files=[]):
@@ -45,10 +61,10 @@ extensions = [makeExtension(name) for name in scandir("strainer")]
 
 setup(
     name="strainer",
-    packages=["strainer"],
+    packages=find_packages(),
     ext_modules=extensions,
-    cmdclass={'build_ext': build_ext},
     setup_requires=['Cython', ],
     install_requires=['Cython', 'beautifulsoup4',
                       'html5lib', 'lxml', 'requests'],
+    **setup_args
 )
