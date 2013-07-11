@@ -28,7 +28,7 @@ def scandir(dir, files=[]):
         elif os.path.isdir(path):
             scandir(path, files)
     return files
-    
+
 
 def makeExtension(extName):
     extPath = extName.replace(".", os.path.sep) + ".py"
@@ -48,5 +48,6 @@ setup(
     packages=["strainer"],
     ext_modules=extensions,
     cmdclass={'build_ext': build_ext},
-    install_requires=['beautifulsoup4', 'html5lib', 'lxml', 'requests'],
+    install_requires=['Cython', 'beautifulsoup4',
+                      'html5lib', 'lxml', 'requests'],
 )
