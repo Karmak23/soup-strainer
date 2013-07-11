@@ -49,6 +49,6 @@ setup(
     ext_modules=extensions,
     cmdclass={'build_ext': build_ext},
     setup_requires=['Cython', ],
-    install_requires=['beautifulsoup4',
+    install_requires=['Cython', 'beautifulsoup4',
                       'html5lib', 'lxml', 'requests'],
 )
