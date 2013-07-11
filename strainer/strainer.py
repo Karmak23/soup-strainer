@@ -38,8 +38,8 @@ class Strainer:
                                         self.parser)))
         else:
             soup = cleaners.cleanup(BeautifulSoup(cleaners.remove_breaks(
-                    cleaners.remove_whitespace(buffer),
-                    from_encoding=encoding), self.parser))
+                    cleaners.remove_whitespace(buffer)), self.parser,
+                    from_encoding=encoding))
 
         aggressive = True
         while True:
