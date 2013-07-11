@@ -25,7 +25,7 @@ from setuptools.extension import Extension
 
 setup_args = {}
 
-if 'sdist' in sys.argv:
+if 'sdist' in sys.argv or 'develop' in sys.argv:
     try:
         from Cython.Distutils import build_ext
 
