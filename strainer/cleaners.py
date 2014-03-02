@@ -21,7 +21,7 @@ from bs4.element import Comment
 
 def remove_whitespace(html):
     """Removes whitespace from an HTML buffer"""
-    return ''.join([line.strip() for line in html.split('\n')])
+    return u''.join([line.strip() for line in html.split(u'\n')])
 
 
 def remove_unlikely(soup):
