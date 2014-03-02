@@ -26,7 +26,7 @@ def remove_whitespace(html):
     # NOTE2: we use a generator instead of a list to lower memory usage.
     # some parser workers can eat up memory in some cases. Not knowing
     # exactly where it comes from, every attempt is considered good.
-    return u' '.join((line.strip() for line in html.split(u'\n')))
+    return ' '.join((line.strip() for line in html.split('\n')))
 
 
 def remove_unlikely(soup):
