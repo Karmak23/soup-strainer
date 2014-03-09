@@ -23,10 +23,7 @@ def remove_whitespace(html):
 
     # NOTE: we still join on space, because in some not-so-rare cases,
     # stripping too much makes 2 words collapse (regularty seen on 1flow).
-    # NOTE2: we use a generator instead of a list to lower memory usage.
-    # some parser workers can eat up memory in some cases. Not knowing
-    # exactly where it comes from, every attempt is considered good.
-    return ' '.join((line.strip() for line in html.split('\n')))
+    return ' '.join([line.strip() for line in html.split('\n')])
 
 
 def remove_unlikely(soup):
