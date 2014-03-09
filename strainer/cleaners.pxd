@@ -7,13 +7,13 @@ Created by: Rui Carmo
 License: MIT (see LICENSE for details)
 """
 
-cpdef bytes remove_whitespace(bytes html)
+cpdef unicode remove_whitespace(unicode html)
 
 cpdef object remove_unlikely(object soup)
-    
+
 cpdef object demote_divs(object soup)
 
-cpdef bytes remove_breaks(bytes html)
+cpdef unicode remove_breaks(unicode html)
 
 cpdef object cleanup(object soup)
 

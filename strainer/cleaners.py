@@ -23,7 +23,7 @@ def remove_whitespace(html):
 
     # NOTE: we still join on space, because in some not-so-rare cases,
     # stripping too much makes 2 words collapse (regularty seen on 1flow).
-    return ' '.join([line.strip() for line in html.split('\n')])
+    return u' '.join([line.strip() for line in html.split(u'\n')])
 
 
 def remove_unlikely(soup):
@@ -52,7 +52,7 @@ def demote_divs(soup):
 
 def remove_breaks(html):
     """Remove BR tags and replace them with Ps"""
-    patterns.breaks.sub('</p><p>', html)
+    patterns.breaks.sub(u'</p><p>', html)
     return html
 
 
