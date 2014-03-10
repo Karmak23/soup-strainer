@@ -23,7 +23,7 @@ def remove_whitespace(html):
 
     # NOTE: we still join on space, because in some not-so-rare cases,
     # stripping too much makes 2 words collapse (regularty seen on 1flow).
-    return u' '.join([line.strip() for line in html.split(u'\n')])
+    return ' '.join([line.strip() for line in html.split('\n')])
 
 
 def remove_unlikely(soup):
