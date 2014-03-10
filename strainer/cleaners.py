@@ -11,7 +11,7 @@ import urlparse
 
 log = logging.getLogger()
 
-from requests.packages import charade
+import charade
 
 import patterns
 
